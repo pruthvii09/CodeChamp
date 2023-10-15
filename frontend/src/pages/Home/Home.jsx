@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 function Home() {
   return (
     <div className="py-20 flex flex-row">
-      <div className="w-30rem my-0 mx-20 flex flex-col justify-center items-center ">
+      <div className="w-[45%] my-0 mx-20 flex flex-col justify-center items-start text-start ">
         <p className="text-6xl text-gray-600 font-semibold	pb-5">
           Start your coding journey today
         </p>
