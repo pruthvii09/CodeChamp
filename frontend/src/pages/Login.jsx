@@ -3,7 +3,7 @@ import React from "react";
 function Login() {
   return (
     <div className="flex flex-col items-center border-3 border-solid border-gray-300 py-10">
-      <div className="justify-items-center	">
+      <div className="justify-items-center">
         <img src="images/avatar.png" alt="" />
       </div>
 

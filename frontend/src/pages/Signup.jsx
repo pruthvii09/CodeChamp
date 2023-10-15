@@ -2,12 +2,12 @@ import React from 'react'
 
 const Signup = () => {
   return (
-    <div className=" flex flex-col items-center border-3 border-solid border-gray-300 py-10 ">
-      <div className="justify-items-center	">
+    <div className="flex flex-col items-center border-3 border-solid border-gray-300 py-10">
+      <div className="justify-items-center">
         <img src="images/avatar.png" alt="" />
       </div>
 
-      <div className="items-center flex flex-col 		">
+      <div className="items-center flex flex-col">
 
 
         <div className="py-4 flex flex-row gap-3 items-center">
