@@ -1,7 +1,92 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AlertCircle } from "lucide-react";
 
 const Signup = () => {
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    contact: "",
+    password: "",
+    isAdmin: false,
+  });
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [errorType, setErrorType] = useState("");
+  // const hanldeSignup = async () => {
+  //   setError("");
+  //   setErrorType("");
+  //   if (data.name.length <= 10) {
+  //     setError("Please Enter your Name");
+  //     setErrorType("name");
+  //   } else if (data.email.length <= 0) {
+  //     setError("Please Enter Email");
+  //     setErrorType("email");
+  //   } else if (data.contact.length !== 10) {
+  //     setError("Please Enter Correct Contact Number");
+  //     setErrorType("contact");
+  //   } else if (data.password.length <= 0) {
+  //     setError("Please Enter Password");
+  //     setErrorType("password");
+  //   } else {
+  //     console.log(data);
+  //     const response = await fetch("http://localhost:4000/api/users/signup", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ ...data }),
+  //     });
+  //     const json = await response.json();
+  //     console.log(json);
+  //     if (response.ok) {
+  //       localStorage.setItem("user", JSON.stringify(json));
+  //       setData({
+  //         name: "",
+  //         email: "",
+  //         contact: "",
+  //         password: "",
+  //       });
+  //     }
+  //     if (!response.ok) {
+  //       setError(json.error);
+  //     }
+  //   }
+  // };
+  const handleSignin = async () => {
+    setError("");
+    if (data.name.length <= 0) {
+      setErrorType("name");
+      setError("Name is Required");
+      console.log(error);
+    } else if (data.email.length <= 0) {
+      setErrorType("email");
+      setError("Email is Required");
+    } else if (data.contact.length !== 10) {
+      setErrorType("contact");
+      setError("Contact No is Exactly 10 digits");
+    } else if (data.password.length <= 0) {
+      setErrorType("password");
+      setError("Password is Required");
+    } else {
+      const response = await fetch("http://localhost:4000/api/users/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...data }), // ... spread opeator
+      });
+      const json = await response.json();
+      if (response.ok) {
+        console.log("Hello");
+        console.log(json);
+        navigate("/");
+      }
+      if (!response.ok) {
+        console.log(json);
+      }
+    }
+  };
   return (
     <section className="bg-gray-50 py-40 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -21,70 +106,94 @@ const Signup = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign in to your account
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <div className="space-y-4 md:space-y-6">
               <div>
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-start text-sm font-medium text-gray-900 dark:text-white"
-                >
+                <label className="block mb-2 text-start text-sm font-medium text-gray-900 dark:text-white">
                   Your Name
                 </label>
                 <input
-                  type="email"
-                  name="email"
-                  id="email"
+                  type="text"
+                  name="name"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="John Doe"
-                  required=""
+                  value={data.name}
+                  onChange={(e) => setData({ ...data, name: e.target.value })}
                 />
+                {errorType === "name" ? (
+                  <div className="flex gap-1 items-center text-red-500 text-xs mt-2">
+                    <AlertCircle size={16} />
+                    <p>{error}</p>
+                  </div>
+                ) : null}
+                {/* {errorType === "name" ? (
+                  <div className="flex gap-1 items-center text-red-500 text-xs mt-2">
+                    <AlertCircle size={16} />
+                    <p>{error}</p>
+                  </div>
+                ) : null} */}
               </div>
               <div>
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-start text-sm font-medium text-gray-900 dark:text-white"
-                >
+                <label className="block mb-2 text-start text-sm font-medium text-gray-900 dark:text-white">
                   Your email
                 </label>
                 <input
                   type="email"
                   name="email"
-                  id="email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
-                  required=""
+                  value={data.email}
+                  onChange={(e) => setData({ ...data, email: e.target.value })}
                 />
+                {errorType === "email" ? (
+                  <div className="flex gap-1 items-center text-red-500 text-xs mt-2">
+                    <AlertCircle size={16} />
+                    <p>{error}</p>
+                  </div>
+                ) : null}
               </div>
               <div>
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-start text-sm font-medium text-gray-900 dark:text-white"
-                >
+                <label className="block mb-2 text-start text-sm font-medium text-gray-900 dark:text-white">
                   Your Contact No.
                 </label>
                 <input
-                  type="email"
-                  name="email"
-                  id="email"
+                  type="text"
+                  name="contact"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="9785925486"
-                  required=""
+                  value={data.contact}
+                  // value={data.contact}
+                  onChange={(e) =>
+                    setData({ ...data, contact: e.target.value })
+                  }
                 />
+                {errorType === "contact" ? (
+                  <div className="flex gap-1 items-center text-red-500 text-xs mt-2">
+                    <AlertCircle size={16} />
+                    <p>{error}</p>
+                  </div>
+                ) : null}
               </div>
               <div>
-                <label
-                  for="password"
-                  className="block text-start mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
+                <label className="block text-start mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Password
                 </label>
                 <input
                   type="password"
                   name="password"
-                  id="password"
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required=""
+                  value={data.password}
+                  // value={data.password}
+                  onChange={(e) =>
+                    setData({ ...data, password: e.target.value })
+                  }
                 />
+                {errorType === "password" ? (
+                  <div className="flex gap-1 items-center text-red-500 text-xs mt-2">
+                    <AlertCircle size={16} />
+                    <p>{error}</p>
+                  </div>
+                ) : null}
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-start">
@@ -98,17 +207,14 @@ const Signup = () => {
                     />
                   </div>
                   <div className="ml-3 text-sm">
-                    <label
-                      for="remember"
-                      className="text-gray-500 dark:text-gray-300"
-                    >
+                    <label className="text-gray-500 dark:text-gray-300">
                       Remember me
                     </label>
                   </div>
                 </div>
               </div>
               <button
-                type="submit"
+                onClick={handleSignin}
                 className="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700"
               >
                 Sign in
@@ -122,7 +228,7 @@ const Signup = () => {
                   Login
                 </Link>
               </p>
-            </form>
+            </div>
           </div>
         </div>
       </div>

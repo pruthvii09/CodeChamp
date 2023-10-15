@@ -3,8 +3,9 @@ const getJwtToken = require("../helpers/getJwtToken");
 const bcryptjs = require("bcryptjs");
 const signup = async (req, res) => {
   const { name, email, isAdmin, contact, password } = req.body;
+  console.log(req.body);
   try {
-    const requiredFields = ["name", "email", "isAdmin", "contact", "password"];
+    const requiredFields = ["name", "email", "contact", "password"];
     const missingFields = [];
     requiredFields.forEach((field) => {
       if (!req.body[field]) {
@@ -26,6 +27,7 @@ const signup = async (req, res) => {
         .status(400)
         .json({ error: "Email Already Exist Please Login" });
     }
+    console.log(req.body);
     const salt = await bcryptjs.genSalt(10);
     const hash = await bcryptjs.hash(password, salt);
     const user = await prisma.user.create({

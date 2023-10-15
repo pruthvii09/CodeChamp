@@ -21,12 +21,9 @@ function Login() {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign in to your account
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <div className="space-y-4 md:space-y-6">
               <div>
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-start text-sm font-medium text-gray-900 dark:text-white"
-                >
+                <label className="block mb-2 text-start text-sm font-medium text-gray-900 dark:text-white">
                   Your email
                 </label>
                 <input
@@ -39,10 +36,7 @@ function Login() {
                 />
               </div>
               <div>
-                <label
-                  for="password"
-                  className="block text-start mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
+                <label className="block text-start mb-2 text-sm font-medium text-gray-900 dark:text-white">
                   Password
                 </label>
                 <input
@@ -96,7 +90,7 @@ function Login() {
                   Sign up
                 </Link>
               </p>
-            </form>
+            </div>
           </div>
         </div>
       </div>
