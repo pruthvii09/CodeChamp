@@ -66,4 +66,6 @@ const login = async (req, res) => {
     return res.status(400).json({ message: "Internal Server Error" });
   }
 };
+
+// get single profile
 module.exports = { signup, login };

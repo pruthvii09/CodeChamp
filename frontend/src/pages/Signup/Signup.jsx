@@ -78,12 +78,21 @@ const Signup = () => {
       });
       const json = await response.json();
       if (response.ok) {
+        localStorage.setItem("user", JSON.stringify(json));
         console.log("Hello");
         console.log(json);
+        setData({
+          name: "",
+          email: "",
+          contact: "",
+          password: "",
+          isAdmin: false,
+        });
         navigate("/");
       }
       if (!response.ok) {
         console.log(json);
+        setError(json?.error);
       }
     }
   };
