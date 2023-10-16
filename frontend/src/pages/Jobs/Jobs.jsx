@@ -42,6 +42,7 @@ const data = [
 
 function Jobs() {
   return (
+<<<<<<< HEAD
     <div className="mt-20 text-start mx-20">
       <h1 className="text-3xl	pb-10 font-normal pl-3">Search for jobs</h1>
       {
@@ -50,6 +51,24 @@ function Jobs() {
         <div className="flex flex-row gap-3">
           <div className=" align-middle pl-2 inline-flex flex-row items-center border border-gray-400 bg-gray-100  rounded-md h-12 w-12">
             <Building2 />
+=======
+    <div className="mt-20 p-10 text-start mx-20">
+      <div>
+        <h1 className="text-3xl	pb-10 font-normal pl-3">Search for jobs</h1>
+        <div className="pt-2 pl-2 border border-gray-300 bg-slate-100 mx-5 rounded-sm">
+          <div className="flex flex-row gap-3">
+            <div className=" align-middle pl-2 inline-flex flex-row items-center border border-gray-400 bg-gray-100  rounded-md h-12 w-12">
+              <Building2 />
+            </div>
+            <div className="flex flex-col">
+              <p className="text-black text-xl  font-bold">Cloud Scale</p>
+              <p className="text-black">
+                Transforming Cloud, Data Center Management and Profitability
+                with integrated Data-insights
+              </p>
+              <p className="text-slate-400">1-10 Employees</p>
+            </div>
+>>>>>>> 7793806 (chnages in profile)
           </div>
           <div className="flex flex-col  ">
             <p className="text-black text-xl  font-bold">{item.companyName}</p>
