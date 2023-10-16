@@ -21,3 +21,4 @@ const authMiddleware = async (req, res, next) => {
     return res.status(400).json({ error: "Internal Server Error" });
   }
 };
+module.exports = authMiddleware;
