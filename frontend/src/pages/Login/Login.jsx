@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AlertCircle } from "lucide-react";
+import { useUserContext } from "../../hooks/useUserContext";
 
-function Login()  {
-
+function Login() {
+  const { dispatch } = useUserContext();
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -11,15 +12,13 @@ function Login()  {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [errorType, setErrorType] = useState("");
-   
 
   const handleLogin = async () => {
     setError("");
     if (data.email.length <= 0) {
       setErrorType("email");
       setError("Email is Required");
-    } 
-    else if (data.password.length <= 0) {
+    } else if (data.password.length <= 0) {
       setErrorType("password");
       setError("Password is Required");
     } else {
@@ -28,11 +27,12 @@ function Login()  {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ ...data }), 
+        body: JSON.stringify({ ...data }),
       });
       const json = await response.json();
       if (response.ok) {
-        console.log("Hello");
+        localStorage.setItem("user", JSON.stringify(json));
+        dispatch({ type: "LOGIN", payload: json });
         console.log(json);
         navigate("/");
       }
@@ -41,7 +41,6 @@ function Login()  {
       }
     }
   };
-
 
   return (
     <section className="bg-gray-50 mt-10 dark:bg-gray-900">
@@ -77,7 +76,7 @@ function Login()  {
                   value={data.email}
                   onChange={(e) => setData({ ...data, email: e.target.value })}
                 />
-                 {errorType === "email" ? (
+                {errorType === "email" ? (
                   <div className="flex gap-1 items-center text-red-500 text-xs mt-2">
                     <AlertCircle size={16} />
                     <p>{error}</p>
@@ -119,10 +118,7 @@ function Login()  {
                     />
                   </div>
                   <div className="ml-3 text-sm">
-                    <label
-                      for="remember"
-                      className="text-gray-500 dark:text-gray-300"
-                    >
+                    <label className="text-gray-500 dark:text-gray-300">
                       Remember me
                     </label>
                   </div>
@@ -135,7 +131,7 @@ function Login()  {
                 </a>
               </div>
               <button
-                type="submit"
+                onClick={handleLogin}
                 className="text-white w-full bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700"
               >
                 Login

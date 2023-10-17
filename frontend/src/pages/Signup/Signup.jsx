@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AlertCircle } from "lucide-react";
+import { useUserContext } from "../../hooks/useUserContext";
 
 const Signup = () => {
   const [data, setData] = useState({
@@ -13,46 +14,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [errorType, setErrorType] = useState("");
-  // const hanldeSignup = async () => {
-  //   setError("");
-  //   setErrorType("");
-  //   if (data.name.length <= 10) {
-  //     setError("Please Enter your Name");
-  //     setErrorType("name");
-  //   } else if (data.email.length <= 0) {
-  //     setError("Please Enter Email");
-  //     setErrorType("email");
-  //   } else if (data.contact.length !== 10) {
-  //     setError("Please Enter Correct Contact Number");
-  //     setErrorType("contact");
-  //   } else if (data.password.length <= 0) {
-  //     setError("Please Enter Password");
-  //     setErrorType("password");
-  //   } else {
-  //     console.log(data);
-  //     const response = await fetch("http://localhost:4000/api/users/signup", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ ...data }),
-  //     });
-  //     const json = await response.json();
-  //     console.log(json);
-  //     if (response.ok) {
-  //       localStorage.setItem("user", JSON.stringify(json));
-  //       setData({
-  //         name: "",
-  //         email: "",
-  //         contact: "",
-  //         password: "",
-  //       });
-  //     }
-  //     if (!response.ok) {
-  //       setError(json.error);
-  //     }
-  //   }
-  // };
+  const { dispatch } = useUserContext();
   const handleSignin = async () => {
     setError("");
     if (data.name.length <= 0) {
@@ -81,6 +43,7 @@ const Signup = () => {
         localStorage.setItem("user", JSON.stringify(json));
         console.log("Hello");
         console.log(json);
+        dispatch({ type: "LOGIN", payload: json });
         setData({
           name: "",
           email: "",

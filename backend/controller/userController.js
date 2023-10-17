@@ -68,4 +68,27 @@ const login = async (req, res) => {
 };
 
 // get single profile
-module.exports = { signup, login };
+const getSingleProfile = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        isAdmin: true,
+        contact: true,
+      },
+    });
+    if (!user) {
+      return res.status(400).json({ error: "User not Found" });
+    }
+    res.status(200).json({ user });
+  } catch (err) {
+    res.status(400).json({ error: "Internal Server Error" });
+  }
+};
+module.exports = { signup, login, getSingleProfile };

@@ -1,7 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useUserContext } from "../hooks/useUserContext";
+import { useState } from "react";
 
 function Layout() {
+  const { user, dispatch } = useUserContext();
+  const [openMenu, setOpenMenu] = useState(false);
+  const handleSignout = async () => {
+    localStorage.clear();
+    dispatch({ type: "LOGIN", payload: null });
+  };
   return (
     <nav className="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600 shadow-lg">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -16,14 +24,72 @@ function Layout() {
           </span>
         </Link>
         <div className="flex md:order-2">
-          <Link to={"/login"}>
-            <button
-              type="button"
-              className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700"
-            >
-              Login
-            </button>
-          </Link>
+          {user ? (
+            <div>
+              <img
+                onClick={() => setOpenMenu(!openMenu)}
+                type="button"
+                className="w-10 h-10 rounded-full cursor-pointer relative"
+                src="images/profile.jpeg"
+                alt="User dropdown"
+              />
+
+              <div
+                // style={openMenu ? { display: "block" } : { display: "none" }}
+                className={`z-50 mt-2 absolute right-8 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600 ${
+                  !openMenu ? "hidden" : ""
+                }`}
+              >
+                <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
+                  <div>{user?.name}</div>
+                  <div className="font-medium truncate">{user?.email}</div>
+                </div>
+                <ul className="py-2 text-sm text-gray-700 dark:text-gray-200">
+                  <li>
+                    <Link
+                      to={"/"}
+                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      Dashboard
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to={"/"}
+                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      Settings
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to={"/"}
+                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      Earnings
+                    </Link>
+                  </li>
+                </ul>
+                <div className="py-1">
+                  <button
+                    onClick={handleSignout}
+                    className="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                  >
+                    Sign out
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <Link to={"/login"}>
+              <button
+                type="button"
+                className="text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700"
+              >
+                Login
+              </button>
+            </Link>
+          )}
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"
