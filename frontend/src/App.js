@@ -7,6 +7,7 @@ import Layout from "./Components/Layout";
 import Problems from "./pages/Problems/Problems";
 import Profile from "./pages/Profile/Profile";
 import Jobs from "./pages/Jobs/Jobs";
+import Overview from "./pages/Overview/Overview";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/problems" element={<Problems/>} />
           <Route path="/profile" element={<Profile/>} />
           <Route path="/jobs" element={<Jobs/>} />
+          <Route path="/overview" element={<Overview/>} />
         </Routes>
       </Router>
     </div>
