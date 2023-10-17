@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AlertCircle } from "lucide-react";
+import Spinner from "../../Components/Spinner.jsx";
 import { useUserContext } from "../../hooks/useUserContext";
 
 function Login() {
@@ -9,12 +10,14 @@ function Login() {
     email: "",
     password: "",
   });
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [errorType, setErrorType] = useState("");
 
   const handleLogin = async () => {
     setError("");
+    setLoading(true);
     if (data.email.length <= 0) {
       setErrorType("email");
       setError("Email is Required");
@@ -40,13 +43,14 @@ function Login() {
         console.log(json);
       }
     }
+    setLoading(false);
   };
 
   return (
     <section className="bg-gray-50 mt-10 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <Link
-          href="/"
+          to={"/"}
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
         >
           <img
@@ -123,18 +127,18 @@ function Login() {
                     </label>
                   </div>
                 </div>
-                <a
-                  href="#"
+                <Link
+                  to={"/"}
                   className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
                   Forgot password?
-                </a>
+                </Link>
               </div>
               <button
                 onClick={handleLogin}
                 className="text-white w-full bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700"
               >
-                Login
+                {loading ? <Spinner /> : `Login`}
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
