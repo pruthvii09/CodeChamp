@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import AboutProfile from "../../Components/Profile/AboutProfile";
 import WorkExpProfile from "../../Components/Profile/WorkExpProfile";
 import EducationProfile from "../../Components/Profile/EducationProfile";
 import AddTagProfile from "../../Components/Profile/AddTagProfile";
+import Dialog from "../../Components/Dialog";
 
 function Profile() {
+  const [openDialog, setOpenDialog] = useState(true);
   return (
     <div>
       <div className="mt-24 flex flex-row justify-between mx-32">
@@ -20,6 +22,12 @@ function Profile() {
         <EducationProfile />
         <AddTagProfile />
       </div>
+      <Dialog
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
+        title={"Heelo"}
+        children={<div>Hello World</div>}
+      />
     </div>
   );
 }
