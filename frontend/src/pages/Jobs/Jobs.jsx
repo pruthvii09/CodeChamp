@@ -6,7 +6,7 @@ function Jobs() {
     <div className="mt-20 p-10 text-start mx-20">
       <div>
         <h1 className="text-3xl	pb-10 font-normal pl-3">Search for jobs</h1>
-        <div className="pt-2 pl-2 border border-gray-300 bg-gray-50 mx-5 rounded-lg">
+        <div className="border border-gray-300 bg-gray-50 rounded-lg px-8 py-6">
           <div className="flex flex-row gap-3">
             <div className=" align-middle pl-2 inline-flex flex-row items-center border border-gray-400 bg-gray-100  rounded-md h-12 w-12">
               <Building2 />

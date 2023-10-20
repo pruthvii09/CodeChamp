@@ -4,7 +4,7 @@ import TableComponent from "../../Components/Table/TableComponent";
 import TableHeader from "../../Components/Table/TableHeader";
 function Problems() {
   return (
-    <div className="py-20 mt-10 px-16 relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div className="py-20 h-[100vh] mt-10 px-16 relative overflow-x-auto shadow-md dark:bg-gray-900">
       <TableHeader />
       <TableComponent />
     </div>

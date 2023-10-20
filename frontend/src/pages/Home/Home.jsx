@@ -5,10 +5,10 @@ function Home() {
   return (
     <div className="py-20 flex flex-row">
       <div className="w-[45%]  my-0 mx-20 flex flex-col justify-center items-start text-start ">
-        <p className="text-6xl text-gray-600 font-semibold	pb-5">
+        <p className="text-6xl text-gray-600 font-semibold pb-5 dark:text-white">
           Start Your <b>Coding</b> Journey Today
         </p>
-        <span className="text-2xl text-slate-700">
+        <span className="text-2xl text-slate-700 dark:text-gray-100">
           Learn to code from scratch with job focussed courses designed by
           experts.
         </span>

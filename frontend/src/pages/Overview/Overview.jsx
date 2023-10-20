@@ -1,33 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GraduationCap } from "lucide-react";
+import { useUserContext } from "../../hooks/useUserContext";
+import Skeleton from "react-loading-skeleton";
 
 function Overview() {
+  const { user } = useUserContext();
+  const [userData, setUserData] = useState(false);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `http://localhost:4000/api/users/userDetail/${user?.id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const json = await response.json();
+        setUserData(json?.userDetails?.userDetails[0]);
+        console.log("userData", userData);
+        console.log(json);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    fetchUserData();
+    setLoading(false);
+  }, [user?.id, userData]);
   return (
-    <div className="my-32 flex flex-col content-start items-star mx-32">
+    <div className="my-32 flex flex-col content-start items-star mx-32 dark:bg-gray-900">
       <h1 className="text-3xl font-medium mx-20">What recruiters will see</h1>
       <div className="flex flex-col border border-gray-300 bg-gray-50  rounded-md items-start mx-20 mt-10">
         <div className="flex flex-col justify-start mx-5 pb-5 ">
           <div className="flex flex-row items-center gap-5 pt-5 ">
-            <p className="font-bold text-2xl">Pruthviraj Auti</p>
+            <p className="font-bold text-2xl">{user?.name}</p>
             <p className="border text-xs text-emerald-500 rounded-md bg-slate-200 px-1">
               Active Today
             </p>
           </div>
           <span className="text-slate-400 text-sm">
-            India • 0.5 Hours behind
+            <Skeleton className="flex-1" count={5} /> • 0.5 Hours behind
           </span>
         </div>
         <div className="flex flex-col pb-5 items-start mx-5">
           <h4 className="text-slate-400">Looking for</h4>
           <p className="items-start text-justify leading-5 tracking-wide text-[15px]">
-            I am an enthusiastic Frontend Developer who is interested in
-            cutting-edge web technologies such as ReactJS, HTML, CSS, and
-            JavaScript. I am now in my second year of engineering at SPPU
-            University, where I am pursuing a degree in Computer Science. I am
-            an enthusiastic Frontend Developer who is interested in cutting-edge
-            web technologies such as ReactJS, HTML, CSS, and JavaScript. I am
-            now in my second year of engineering at SPPU University, where I am
-            pursuing a degree in Computer Science.
+            {userData.desc}
           </p>
         </div>
         <div className="flex flex-col pb-5 mx-5 items-start">
@@ -61,7 +86,7 @@ function Overview() {
         <div className="flex flex-col pb-5 mx-5 items-start">
           <h4 className="text-slate-400 pb-3">Skills</h4>
           <div className="flex flex-col  ">
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-row gap-4 flex-wrap text-xs">
               <h3 className="border rounded-md bg-slate-200 p-1 ">
                 Javascript
               </h3>
@@ -70,11 +95,11 @@ function Overview() {
               <h3 className="border rounded-md bg-slate-200 p-1">MongoDB</h3>
               <h3 className="border rounded-md bg-slate-200 p-1">Node.js</h3>
               <h3 className="border rounded-md bg-slate-200 p-1">React</h3>
+              <h3 className="border rounded-md bg-slate-200 p-1 ">
+                MERN Stack - Javascript (ES5 & ES6), MongoDB, Express.Js, React,
+                Node.Js
+              </h3>
             </div>
-            <h3 className="border rounded-md bg-slate-200 mt-2 p-1 ">
-              MERN Stack - Javascript (ES5 & ES6), MongoDB, Express.Js, React,
-              Node.Js
-            </h3>
           </div>
         </div>
       </div>

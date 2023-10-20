@@ -14,11 +14,12 @@ import Profile from "./pages/Profile/Profile";
 import Jobs from "./pages/Jobs/Jobs";
 import Overview from "./pages/Overview/Overview";
 import { useUserContext } from "./hooks/useUserContext";
+import Coading from "./pages/coading/Coading";
 
 function App() {
   const { user } = useUserContext();
   return (
-    <div className="App">
+    <div className="dark:bg-gray-900">
       <Router>
         <Layout />
         <Routes>
@@ -41,6 +42,7 @@ function App() {
             path="/overview"
             element={user ? <Overview /> : <Navigate to={"/login"} />}
           />
+          <Route path="/coading/:id" element={<Coading />} />
         </Routes>
       </Router>
     </div>

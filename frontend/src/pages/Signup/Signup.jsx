@@ -57,8 +57,9 @@ const Signup = () => {
         navigate("/");
       }
       if (!response.ok) {
+        setError(json.error);
+        setErrorType("general");
         console.log(json);
-        setError(json?.error);
       }
     }
     setLoading(false);
@@ -182,7 +183,14 @@ const Signup = () => {
                   </div>
                 </div>
               </div>
+              {errorType === "general" ? (
+                <div className="flex gap-1 items-center text-red-500 text-xs mt-2">
+                  <AlertCircle size={16} />
+                  <p>{error}</p>
+                </div>
+              ) : null}
               <button
+                style={{ marginTop: "8px" }}
                 onClick={handleSignin}
                 className="w-full text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700"
               >

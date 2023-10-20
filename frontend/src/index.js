@@ -4,12 +4,15 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { UserContxetProvider } from "./context/userContext";
+import { SkeletonTheme } from "react-loading-skeleton";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <UserContxetProvider>
-      <App />
+      <SkeletonTheme baseColor="#154789" highlightColor="#333">
+        <App />
+      </SkeletonTheme>
     </UserContxetProvider>
   </React.StrictMode>
 );

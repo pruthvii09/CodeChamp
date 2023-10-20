@@ -54,16 +54,16 @@ const login = async (req, res) => {
       },
     });
     if (!user) {
-      return res.status(400).json({ message: "User Not Found" });
+      return res.status(400).json({ error: "User Not Found" });
     }
     const match = await bcryptjs.compare(password, user.password);
     if (!match) {
-      return res.status(400).json({ message: "Incorrect Password" });
+      return res.status(400).json({ error: "Incorrect Password" });
     }
     const token = getJwtToken(user._id);
     return res.status(200).json({ email, token, name: user.name });
   } catch (err) {
-    return res.status(400).json({ message: "Internal Server Error" });
+    return res.status(400).json({ error: "Internal Server Error" });
   }
 };
 
@@ -91,4 +91,51 @@ const getSingleProfile = async (req, res) => {
     res.status(400).json({ error: "Internal Server Error" });
   }
 };
-module.exports = { signup, login, getSingleProfile };
+const uploadUserDetails = async (req, res) => {
+  const { country, github, roles, desc, userId } = req.body;
+  try {
+    const userDetails = await prisma.userDetails.create({
+      data: {
+        country,
+        github,
+        roles,
+        desc,
+        userId,
+      },
+    });
+    console.log(userDetails);
+    if (!userDetails) {
+      return res.status(400).json({ error: "Internal Error" });
+    }
+    res.status(200).json({ userDetails });
+  } catch (err) {
+    return res.status(400).json({ error: "Internal Error" });
+  }
+};
+const getUserDetails = async (req, res) => {
+  const { id } = req.params;
+  try {
+    console.log(id);
+    const userDetails = await prisma.user.findFirst({
+      where: {
+        id: id,
+      },
+      select: {
+        userDetails: true,
+      },
+    });
+    if (!userDetails) {
+      return res.status(400).json({ error: "No user details found" });
+    }
+    res.status(200).json({ userDetails });
+  } catch (err) {
+    return res.status(400).json({ error: "Internal Error" });
+  }
+};
+module.exports = {
+  signup,
+  login,
+  getSingleProfile,
+  uploadUserDetails,
+  getUserDetails,
+};

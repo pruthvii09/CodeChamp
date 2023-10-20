@@ -1,6 +1,31 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
+import "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const TableComponent = () => {
+  const navigate = useNavigate();
+  const [problems, setProblems] = useState(null);
+  useEffect(() => {
+    const fetchProblems = async () => {
+      try {
+        const response = await fetch("http://localhost:4000/api/question", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const json = await response.json();
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        setProblems(json.questions);
+        console.log(problems);
+        console.log(json);
+      } catch (err) {
+        console.error("Error while fetching data");
+      }
+    };
+    fetchProblems();
+  }, []);
   return (
     <div>
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -21,7 +46,7 @@ const TableComponent = () => {
               Acceptance
             </th>
             <th scope="col" className="px-6 py-3">
-              Difficulty
+              Description
             </th>
             <th scope="col" className="px-6 py-3">
               Frequency
@@ -30,89 +55,25 @@ const TableComponent = () => {
         </thead>
 
         <tbody>
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <td className="w-4 p-4"></td>
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+          {problems?.map((item) => (
+            <tr
+              onClick={() => navigate(`/coading/${item._id}`)}
+              key={item._id}
+              className="bg-white border-b cursor-pointer dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
             >
-              1. Number of Ways to Stay in the Same Place After Some Steps
-            </th>
-            <td className="px-6 py-4"></td>
-            <td className="px-6 py-4">47.5%</td>
-            <td className="px-6 py-4">Hard</td>
-            <td className="px-6 py-4">Edit</td>
-          </tr>
-
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <td className="w-4 p-4"></td>
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              2. Two Sum
-            </th>
-            <td className="px-6 py-4"></td>
-            <td className="px-6 py-4">50.8%</td>
-            <td className="px-6 py-4">Easy</td>
-            <td className="px-6 py-4">Edit</td>
-          </tr>
-
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <td className="w-4 p-4"></td>
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              3. Add Two Numbers
-            </th>
-            <td className="px-6 py-4"></td>
-            <td className="px-6 py-4">41.4%</td>
-            <td className="px-6 py-4">Medium</td>
-            <td className="px-6 py-4">Edit</td>
-          </tr>
-
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <td className="w-4 p-4"></td>
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              4. Longest Substring Without Repeating Characters
-            </th>
-            <td className="px-6 py-4"></td>
-            <td className="px-6 py-4">34.1%</td>
-            <td className="px-6 py-4">Medium</td>
-            <td className="px-6 py-4">Edit</td>
-          </tr>
-
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <td className="w-4 p-4"></td>
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              5. Median of Two Sorted Arrays
-            </th>
-            <td className="px-6 py-4"></td>
-            <td className="px-6 py-4">38.1%</td>
-            <td className="px-6 py-4">Hard</td>
-            <td className="px-6 py-4">Edit</td>
-          </tr>
-
-          <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-            <td className="w-4 p-4"></td>
-            <th
-              scope="row"
-              className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-            >
-              6. Longest Palindromic Substring
-            </th>
-            <td className="px-6 py-4"></td>
-            <td className="px-6 py-4">32.8%</td>
-            <td className="px-6 py-4">Mediun</td>
-            <td className="px-6 py-4">Edit</td>
-          </tr>
+              <td className="w-4 p-4"></td>
+              <th
+                scope="row"
+                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              >
+                {item.number}. {item.title}
+              </th>
+              <td className="px-6 py-4">Click Here</td>
+              <td className="px-6 py-4">47.5%</td>
+              <td className="px-6 py-4">{item.description}</td>
+              <td className="px-6 py-4">Edit</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

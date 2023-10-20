@@ -37,62 +37,14 @@ const AboutProfile = () => {
 
           <div className="mb-4">
             <label className="block text-start mb-2 text-sm font-medium text-gray-900 dark:text-white">
-              Select your primary role*
+              Enter Github Profile *
             </label>
-
-            <button
-              id="dropdownDefaultButton"
-              data-dropdown-toggle="dropdown"
-              className="flex text-gray-900 bg-gray-50 border border-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-start items-center dark:bg-blue-600"
-              type="button"
-            >
-              Select Role Here
-              <svg
-                className="w-2.5 h-2.5 ml-2.5"
-                aria-hidden="true"
-                fill="none"
-                viewBox="0 0 10 6"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m1 1 4 4 4-4"
-                />
-              </svg>
-            </button>
-            <div
-              id="dropdown"
-              className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700"
-            >
-              <ul
-                className="py-2 text-sm text-gray-700 dark:text-gray-200"
-                aria-labelledby="dropdownDefaultButton"
-              >
-                <li>
-                  <span className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                    Dashboard
-                  </span>
-                </li>
-                <li>
-                  <span className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                    Settings
-                  </span>
-                </li>
-                <li>
-                  <span className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                    Earnings
-                  </span>
-                </li>
-                <li>
-                  <span className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                    Sign out
-                  </span>
-                </li>
-              </ul>
-            </div>
-
+            <input
+              type="text"
+              name="contact"
+              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder=""
+            />
             <div>
               <label className="block mb-2 text-start text-sm font-medium text-gray-900 dark:text-white">
                 Open to the following roles

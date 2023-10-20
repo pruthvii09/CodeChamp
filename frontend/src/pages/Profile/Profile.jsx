@@ -8,7 +8,7 @@ import Dialog from "../../Components/Dialog";
 function Profile() {
   const [openDialog, setOpenDialog] = useState(true);
   return (
-    <div>
+    <div className="dark:bg-gray-900">
       <div className="mt-24 flex flex-row justify-between mx-32">
         <div className="flex flex-col mt-16">
           <span className="text-3xl font-semibold	mb-4">

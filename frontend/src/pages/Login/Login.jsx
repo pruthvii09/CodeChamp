@@ -40,6 +40,8 @@ function Login() {
         navigate("/");
       }
       if (!response.ok) {
+        setError(json.error);
+        setErrorType("general");
         console.log(json);
       }
     }
@@ -134,12 +136,20 @@ function Login() {
                   Forgot password?
                 </Link>
               </div>
+              {errorType === "general" ? (
+                <div className="flex gap-1 items-center text-red-500 text-xs">
+                  <AlertCircle size={16} />
+                  <p>{error}</p>
+                </div>
+              ) : null}
               <button
+                style={{ marginTop: "8px" }}
                 onClick={handleLogin}
                 className="text-white w-full bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700"
               >
                 {loading ? <Spinner /> : `Login`}
               </button>
+
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
                 <Link
