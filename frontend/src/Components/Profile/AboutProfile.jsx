@@ -31,7 +31,6 @@ const AboutProfile = () => {
               onChange={(e) => setData({ ...data, name: e.target.value })}
             />
           </div>
-
           <div className="mb-4">
             <label className="block mb-2 text-start text-sm font-medium text-gray-900 dark:text-white">
               Where are you based?*
@@ -45,7 +44,6 @@ const AboutProfile = () => {
               onChange={(e) => setData({ ...data, country: e.target.value })}
             />
           </div>
-
           <div className="mb-4">
             <label className="block text-start mb-2 text-sm font-medium text-gray-900 dark:text-white">
               Enter Github Profile *
@@ -85,6 +83,7 @@ const AboutProfile = () => {
               ></textarea>
             </div>
           </div>
+          git
         </div>
       </div>
     </div>
