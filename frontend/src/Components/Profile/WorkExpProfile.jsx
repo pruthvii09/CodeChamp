@@ -18,20 +18,24 @@ const WorkExpProfile = () => {
   return (
     <div className="flex flex-row justify-between pb-2 border-b border-gray-200">
       <div className="w-[30%] justify-start text-start mt-4 pr-16">
-        <h2 className="text-2xl font-semibold">Your work experience</h2>
+        <h2 className="text-2xl font-semibold dark:text-white">
+          Your work experience
+        </h2>
         <p className="text-slate-400 text-xs">
           What other positions have you held?
         </p>
       </div>
       <div className="flex flex-1 flex-col">
         {data.map((item) => (
-          <div className="flex bg-gray-50 flex-row my-4 mr-3 gap-4 rounded-md border border-gray-300 px-6 py-1 items-center">
+          <div className="flex bg-gray-50 flex-row my-4 mr-3 gap-4 rounded-md border border-gray-300 px-6 py-1 items-center dark:bg-gray-700 dark:border-gray-600">
             <div>
-              <Building2 size={35} color="gray" />
+              <Building2 size={35} className="text-gray dark:text-white" />
             </div>
             <div className="flex w-full flex-col text-left m-2">
               <div className="flex justify-between">
-                <h3 className="font-semibold">{item.position}</h3>
+                <h3 className="font-semibold dark:text-white">
+                  {item.position}
+                </h3>
                 <p className="text-xs text-gray-500 cursor-pointer">Edit</p>
               </div>
               <span className="text-[14px] text-blue-600">{item.company}</span>

@@ -3,7 +3,6 @@ const getJwtToken = require("../helpers/getJwtToken");
 const bcryptjs = require("bcryptjs");
 const signup = async (req, res) => {
   const { name, email, isAdmin, contact, password } = req.body;
-  console.log(req.body);
   try {
     const requiredFields = ["name", "email", "contact", "password"];
     const missingFields = [];
@@ -27,7 +26,6 @@ const signup = async (req, res) => {
         .status(400)
         .json({ error: "Email Already Exist Please Login" });
     }
-    console.log(req.body);
     const salt = await bcryptjs.genSalt(10);
     const hash = await bcryptjs.hash(password, salt);
     const user = await prisma.user.create({
@@ -61,7 +59,7 @@ const login = async (req, res) => {
       return res.status(400).json({ error: "Incorrect Password" });
     }
     const token = getJwtToken(user._id);
-    return res.status(200).json({ email, token, name: user.name });
+    return res.status(200).json({ ...user, token });
   } catch (err) {
     return res.status(400).json({ error: "Internal Server Error" });
   }
@@ -103,7 +101,6 @@ const uploadUserDetails = async (req, res) => {
         userId,
       },
     });
-    console.log(userDetails);
     if (!userDetails) {
       return res.status(400).json({ error: "Internal Error" });
     }
@@ -115,7 +112,6 @@ const uploadUserDetails = async (req, res) => {
 const getUserDetails = async (req, res) => {
   const { id } = req.params;
   try {
-    console.log(id);
     const userDetails = await prisma.user.findFirst({
       where: {
         id: id,

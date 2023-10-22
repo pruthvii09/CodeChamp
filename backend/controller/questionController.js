@@ -2,7 +2,6 @@ const prisma = require("../prisma/index");
 
 const addQuestion = async (req, res) => {
   const { number, title, description, template, testCases } = req.body;
-  console.log(req.body);
   try {
     const question = await prisma.question.create({
       data: {
@@ -28,7 +27,6 @@ const addQuestion = async (req, res) => {
         },
       },
     });
-    console.log(question);
     if (!question) {
       return res.status(400).json({ error: "Error" });
     }
@@ -43,10 +41,29 @@ const getAllQuestion = async (req, res) => {
     if (!questions) {
       return res.status(400).json({ error: "No Questions Found" });
     }
-    console.log("hello", questions);
     res.status(200).json({ questions });
   } catch (err) {
     res.status(200).json({ error: err });
   }
 };
-module.exports = { addQuestion, getAllQuestion };
+const getQuestionById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const question = await prisma.question.findUnique({
+      where: {
+        id: id,
+      },
+      include: {
+        template: true,
+        testCases: true,
+      },
+    });
+    if (!question) {
+      return res.status(400).json({ error: "No Quesstion Found" });
+    }
+    res.status(200).json({ question });
+  } catch (err) {
+    return res.status(400).json({ error: err });
+  }
+};
+module.exports = { addQuestion, getAllQuestion, getQuestionById };

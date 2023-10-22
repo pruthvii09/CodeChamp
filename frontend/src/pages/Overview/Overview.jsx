@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { GraduationCap } from "lucide-react";
 import { useUserContext } from "../../hooks/useUserContext";
-import Skeleton from "react-loading-skeleton";
 
 function Overview() {
   const { user } = useUserContext();
+  console.log(user);
   const [userData, setUserData] = useState(false);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -21,38 +21,59 @@ function Overview() {
           }
         );
         if (!response.ok) {
+          const errorData = await response.json();
+          console.error("Network response was not ok:", errorData);
           throw new Error("Network response was not ok");
         }
         const json = await response.json();
-        setUserData(json?.userDetails?.userDetails[0]);
-        console.log("userData", userData);
-        console.log(json);
+        const userDetails = json.userDetails?.userDetails[0];
+        setUserData(userDetails);
+        console.log("userData", userDetails);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching user data:", error);
+        setLoading(false);
+      } finally {
+        setLoading(false);
       }
     };
-    fetchUserData();
-    setLoading(false);
-  }, [user?.id, userData]);
+
+    if (user?.id) {
+      fetchUserData();
+    }
+  }, [user?.id]);
+  if (loading) {
+    return <div className="py-32 px-20">Loading.....</div>;
+  }
+  if (userData === undefined) {
+    return (
+      <div className="py-32 px-20">
+        Please Complete Your Profile on Edit Profile Section
+      </div>
+    );
+  }
+
   return (
-    <div className="my-32 flex flex-col content-start items-star mx-32 dark:bg-gray-900">
-      <h1 className="text-3xl font-medium mx-20">What recruiters will see</h1>
-      <div className="flex flex-col border border-gray-300 bg-gray-50  rounded-md items-start mx-20 mt-10">
+    <div className="py-32 flex flex-col content-start items-star mx-32 dark:bg-gray-900">
+      <h1 className="text-3xl font-medium mx-20 dark:text-white">
+        What recruiters will see
+      </h1>
+      <div className="flex flex-col border border-gray-300 bg-gray-50  rounded-md items-start mx-20 mt-10 dark:bg-gray-700 dark:border-gray-600">
         <div className="flex flex-col justify-start mx-5 pb-5 ">
           <div className="flex flex-row items-center gap-5 pt-5 ">
-            <p className="font-bold text-2xl">{user?.name}</p>
+            <p className="font-bold text-2xl dark:text-white">{user?.name}</p>
             <p className="border text-xs text-emerald-500 rounded-md bg-slate-200 px-1">
               Active Today
             </p>
           </div>
           <span className="text-slate-400 text-sm">
-            <Skeleton className="flex-1" count={5} /> • 0.5 Hours behind
+            India • 0.5 Hours behind
           </span>
         </div>
         <div className="flex flex-col pb-5 items-start mx-5">
           <h4 className="text-slate-400">Looking for</h4>
-          <p className="items-start text-justify leading-5 tracking-wide text-[15px]">
-            {userData.desc}
+          <p className="items-start text-justify leading-5 tracking-wide text-[15px] dark:text-white">
+            {userData?.desc}
           </p>
         </div>
         <div className="flex flex-col pb-5 mx-5 items-start">

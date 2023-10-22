@@ -12,8 +12,10 @@ app.use(express.urlencoded({ extended: true }));
 // Routes
 const userRoutes = require("./routes/userRoutes");
 const questionRoutes = require("./routes/questionRoutes");
+const codeRoutes = require("./routes/codeRoutes");
 app.use("/api/users", userRoutes);
 app.use("/api/question", questionRoutes);
+app.use("/api/code", codeRoutes);
 
 // Sample route
 app.get("/", (req, res) => {

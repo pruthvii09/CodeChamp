@@ -11,9 +11,7 @@ const authMiddleware = async (req, res, next) => {
   const token = authorization.split(" ")[1];
 
   try {
-    // console.log(token);
     const { _id } = jwt.verify(token, process.env.JWT_SECRET);
-    // console.log(_id);
     req.user = await prisma.user.findFirst({
       where: {
         id: _id,

@@ -47,9 +47,19 @@ model Template {
 
 model TestCase {
   id       String      @id @default(auto()) @map("_id") @db.ObjectId
-  language String
   input    String
   output   String
   question Question @relation(fields: [questionId], references: [id])
   questionId String @db.ObjectId
+}
+model Code {
+  id       String      @id @default(auto()) @map("_id") @db.ObjectId
+  language  String
+  code    String
+  submitted  Boolean
+  passedTest Int?
+  runCount   Int  @default(0)
+  questionId  String @db.ObjectId
+  authorId   String  @db.ObjectId
+  executionTime  Float   
 }
