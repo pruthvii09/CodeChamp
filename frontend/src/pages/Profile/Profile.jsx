@@ -6,7 +6,6 @@ import AddTagProfile from "../../Components/Profile/AddTagProfile";
 import Dialog from "../../Components/Dialog";
 
 function Profile() {
-  const [openDialog, setOpenDialog] = useState(true);
   return (
     <div className="dark:bg-gray-900">
       <div className="pt-24 flex flex-row justify-between mx-32">
@@ -22,12 +21,6 @@ function Profile() {
         <EducationProfile />
         <AddTagProfile />
       </div>
-      <Dialog
-        openDialog={openDialog}
-        setOpenDialog={setOpenDialog}
-        title={"Heelo"}
-        children={<div>Hello World</div>}
-      />
     </div>
   );
 }

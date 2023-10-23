@@ -36,9 +36,7 @@ const TableComponent = () => {
       fetchAlreadyQuestion();
     }
   }, []);
-  useEffect(() => {
-    console.log("alreadyQuestion:", alreadyQuestion);
-  }, [alreadyQuestion]);
+  useEffect(() => {}, [alreadyQuestion]);
   useEffect(() => {
     setLoading(true);
     const fetchProblems = async () => {

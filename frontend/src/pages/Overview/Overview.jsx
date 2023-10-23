@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { GraduationCap } from "lucide-react";
 import { useUserContext } from "../../hooks/useUserContext";
-
+import GitHubCalendar from "react-github-calendar";
 function Overview() {
   const { user } = useUserContext();
   console.log(user);
@@ -20,19 +20,18 @@ function Overview() {
             },
           }
         );
+
         if (!response.ok) {
           const errorData = await response.json();
           console.error("Network response was not ok:", errorData);
           throw new Error("Network response was not ok");
         }
+
         const json = await response.json();
-        const userDetails = json.userDetails?.userDetails[0];
+        const userDetails = json?.details;
         setUserData(userDetails);
-        console.log("userData", userDetails);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching user data:", error);
-        setLoading(false);
       } finally {
         setLoading(false);
       }
@@ -42,6 +41,7 @@ function Overview() {
       fetchUserData();
     }
   }, [user?.id]);
+
   if (loading) {
     return <div className="py-32 px-20">Loading.....</div>;
   }
@@ -105,22 +105,9 @@ function Overview() {
           </div>
         </div>
         <div className="flex flex-col pb-5 mx-5 items-start">
-          <h4 className="text-slate-400 pb-3">Skills</h4>
+          <h4 className="text-slate-400 pb-3">Github</h4>
           <div className="flex flex-col  ">
-            <div className="flex flex-row gap-4 flex-wrap text-xs">
-              <h3 className="border rounded-md bg-slate-200 p-1 ">
-                Javascript
-              </h3>
-              <h3 className="border rounded-md bg-slate-200 p-1">HTML</h3>
-              <h3 className="border rounded-md bg-slate-200 p-1">CSS</h3>
-              <h3 className="border rounded-md bg-slate-200 p-1">MongoDB</h3>
-              <h3 className="border rounded-md bg-slate-200 p-1">Node.js</h3>
-              <h3 className="border rounded-md bg-slate-200 p-1">React</h3>
-              <h3 className="border rounded-md bg-slate-200 p-1 ">
-                MERN Stack - Javascript (ES5 & ES6), MongoDB, Express.Js, React,
-                Node.Js
-              </h3>
-            </div>
+            <GitHubCalendar username={userData.github} fontSize={12} />
           </div>
         </div>
       </div>

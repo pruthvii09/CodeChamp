@@ -115,6 +115,7 @@ const Coading = () => {
         navigate("/problems");
       } else {
         setOutputError(data?.error);
+        navigate("/problems");
       }
     } catch (error) {
       console.error("Error:", error);

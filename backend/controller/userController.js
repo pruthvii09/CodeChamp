@@ -92,6 +92,26 @@ const getSingleProfile = async (req, res) => {
 const uploadUserDetails = async (req, res) => {
   const { country, github, roles, desc, userId } = req.body;
   try {
+    console.log(req.body);
+    const user = await prisma.userDetails.findFirst({
+      where: {
+        userId: userId,
+      },
+    });
+    if (user) {
+      const updateUser = await prisma.userDetails.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          github,
+          country,
+          roles,
+          desc,
+        },
+      });
+      return res.status(200).json({ updateUser });
+    }
     const userDetails = await prisma.userDetails.create({
       data: {
         country,
@@ -123,7 +143,9 @@ const getUserDetails = async (req, res) => {
     if (!userDetails) {
       return res.status(400).json({ error: "No user details found" });
     }
-    res.status(200).json({ userDetails });
+    console.log(userDetails);
+    const details = userDetails.userDetails[0];
+    res.status(200).json({ details });
   } catch (err) {
     return res.status(400).json({ error: "Internal Error" });
   }

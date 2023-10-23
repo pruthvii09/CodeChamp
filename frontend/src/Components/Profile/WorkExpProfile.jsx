@@ -1,6 +1,9 @@
 import { Building2, Plus } from "lucide-react";
-import React from "react";
-const data = [
+import React, { useState } from "react";
+import Dialog from "../Dialog";
+import { useUserContext } from "../../hooks/useUserContext";
+import Spinner from "../Spinner";
+const dataexp = [
   {
     id: 1,
     position: "Student",
@@ -15,6 +18,53 @@ const data = [
   },
 ];
 const WorkExpProfile = () => {
+  const { user } = useUserContext();
+  const [openDialog, setOpenDialog] = useState(false);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState({
+    position: "",
+    company: "",
+    start: "",
+    end: "",
+    userId: user?.id,
+  });
+  const handleSubmit = async () => {
+    setLoading(true);
+    if (
+      data.position.length <= 0 ||
+      data.company.length <= 0 ||
+      data.end.length <= 0 ||
+      data.start.length <= 0
+    ) {
+      setError("All Fields Required");
+    } else {
+      try {
+        console.log({ ...data });
+        const response = await fetch("http://localhost:4000/api/work", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", // Corrected content type
+          },
+          body: JSON.stringify({ ...data }),
+        });
+
+        const json = await response.json();
+        console.log(json);
+
+        if (response.ok) {
+          setOpenDialog(false);
+        } else {
+          setError(json.error);
+        }
+      } catch (error) {
+        console.error("An error occurred:", error);
+        setError("An error occurred while submitting the data.");
+      }
+    }
+    setLoading(false);
+  };
+
   return (
     <div className="flex flex-row justify-between pb-2 border-b border-gray-200">
       <div className="w-[30%] justify-start text-start mt-4 pr-16">
@@ -26,8 +76,11 @@ const WorkExpProfile = () => {
         </p>
       </div>
       <div className="flex flex-1 flex-col">
-        {data.map((item) => (
-          <div className="flex bg-gray-50 flex-row my-4 mr-3 gap-4 rounded-md border border-gray-300 px-6 py-1 items-center dark:bg-gray-700 dark:border-gray-600">
+        {dataexp.map((item, index) => (
+          <div
+            key={index}
+            className="flex bg-gray-50 flex-row my-4 mr-3 gap-4 rounded-md border border-gray-300 px-6 py-1 items-center dark:bg-gray-700 dark:border-gray-600"
+          >
             <div>
               <Building2 size={35} className="text-gray dark:text-white" />
             </div>
@@ -43,11 +96,77 @@ const WorkExpProfile = () => {
             </div>
           </div>
         ))}
-        <p className="text-start cursor-pointer flex items-center gap-1 text-xs text-blue-800">
+        <p
+          onClick={() => setOpenDialog(true)}
+          className="text-start cursor-pointer flex items-center gap-1 text-xs text-blue-800"
+        >
           <Plus size={14} />
           Add your work Experience
         </p>
       </div>
+      <Dialog
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
+        title={"Add Your Work Experience"}
+        children={
+          <div>
+            <label className="block text-start text-sm font-medium text-gray-900 dark:text-white">
+              Position
+            </label>
+            <input
+              type="text"
+              name="name"
+              className="bg-gray-50 border mb-4 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Enter Position"
+              value={data.position}
+              onChange={(e) => setData({ ...data, position: e.target.value })}
+            />
+            <label className="block text-start text-sm font-medium text-gray-900 dark:text-white">
+              Company
+            </label>
+            <input
+              type="text"
+              name="name"
+              className="bg-gray-50 border mb-4 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Enter Company Name"
+              value={data.company}
+              onChange={(e) => setData({ ...data, company: e.target.value })}
+            />
+            <div className="flex gap-8">
+              <div className="flex-1">
+                <label className="block text-start text-sm font-medium text-gray-900 dark:text-white">
+                  Start Date
+                </label>
+                <input
+                  type="date"
+                  className="bg-gray-50 border mb-4 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Enter Start Date"
+                  value={data.start}
+                  onChange={(e) => setData({ ...data, start: e.target.value })}
+                />
+              </div>
+              <div className="flex-1">
+                <label className="block text-start text-sm font-medium text-gray-900 dark:text-white">
+                  End Date
+                </label>
+                <input
+                  type="date"
+                  className="bg-gray-50 border mb-4 border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Enter End Date"
+                  value={data.end}
+                  onChange={(e) => setData({ ...data, end: e.target.value })}
+                />
+              </div>
+            </div>
+            <button
+              onClick={handleSubmit}
+              className="px-4 py-2 bg-black text-white rounded-md"
+            >
+              {loading ? <Spinner /> : "Save"}
+            </button>
+          </div>
+        }
+      />
     </div>
   );
 };

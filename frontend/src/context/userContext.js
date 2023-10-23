@@ -43,7 +43,6 @@ export const UserContxetProvider = ({ children }) => {
       const json = await response.json();
 
       if (response.ok) {
-        console.log(json);
         dispatch({ type: "SET_USER_DATA", payload: json });
       }
     };

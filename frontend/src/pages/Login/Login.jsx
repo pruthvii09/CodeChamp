@@ -36,13 +36,11 @@ function Login() {
       if (response.ok) {
         localStorage.setItem("user", JSON.stringify(json));
         dispatch({ type: "LOGIN", payload: json });
-        console.log(json);
         navigate("/");
       }
       if (!response.ok) {
         setError(json.error);
         setErrorType("general");
-        console.log(json);
       }
     }
     setLoading(false);

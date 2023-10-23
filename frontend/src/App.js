@@ -15,6 +15,7 @@ import Jobs from "./pages/Jobs/Jobs";
 import Overview from "./pages/Overview/Overview";
 import { useUserContext } from "./hooks/useUserContext";
 import Coading from "./pages/coading/Coading";
+import Admin from "./pages/Admin/Admin";
 
 function App() {
   const { user } = useUserContext();
@@ -43,6 +44,7 @@ function App() {
             element={user ? <Overview /> : <Navigate to={"/login"} />}
           />
           <Route path="/coading/:id" element={<Coading />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </Router>
     </div>

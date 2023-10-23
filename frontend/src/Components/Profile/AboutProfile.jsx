@@ -1,13 +1,83 @@
-import React, { useState } from "react";
-
+import React, { useEffect, useState } from "react";
+import { useUserContext } from "../../hooks/useUserContext";
+import Spinner from "../Spinner";
+import Dialog from "../Dialog";
 const AboutProfile = () => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const { user } = useUserContext();
+  const [loading, setLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [data, setData] = useState({
-    name: "",
     country: "",
     github: "",
     roles: "",
     desc: "",
+    userId: user?.id,
   });
+  useEffect(() => {
+    const fetchDetails = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `http://localhost:4000/api/users/userDetail/${user?.id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (response.ok) {
+          const json = await response.json();
+          setData({
+            country: json?.details?.country,
+            github: json?.details?.github,
+            roles: json?.details?.roles,
+            desc: json?.details?.desc,
+            userId: user?.id,
+          });
+        } else {
+          // Handle the case when the response is not okay
+          throw Error("Network Not Good");
+        }
+      } catch (error) {
+        // Handle any errors that occur during the fetch
+        console.error("Error fetching user details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (user?.id) {
+      fetchDetails();
+    }
+  }, [user?.id]);
+
+  const hanldeSubmit = async () => {
+    // console.log(data);
+    if (user?.id) {
+      setSubmitLoading(true);
+      const response = await fetch(
+        "http://localhost:4000/api/users/uploadDetails",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...data }),
+        }
+      );
+      const json = await response.json();
+      if (response.ok) {
+        setOpenDialog(true);
+      }
+      if (!response.ok) {
+      }
+    }
+    setSubmitLoading(false);
+  };
+  if (!user || loading) {
+    return <div>Loading.....</div>;
+  }
   return (
     <div>
       <div className="flex flex-row justify-between pb-2 border-b border-gray-200">
@@ -23,12 +93,12 @@ const AboutProfile = () => {
               Your Name
             </label>
             <input
+              disabled={true}
               type="name"
               name="name"
-              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              className="bg-gray-50 border cursor-not-allowed border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Enter your name"
-              value={data.name}
-              onChange={(e) => setData({ ...data, name: e.target.value })}
+              value={user?.name}
             />
           </div>
           <div className="mb-4">
@@ -83,9 +153,20 @@ const AboutProfile = () => {
               ></textarea>
             </div>
           </div>
-          git
+          <button
+            onClick={hanldeSubmit}
+            className="px-4 py-2 bg-black text-white text-end rounded-md"
+          >
+            {submitLoading ? <Spinner /> : "Save"}
+          </button>
         </div>
       </div>
+      <Dialog
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
+        title={"Updated Your Profile"}
+        children={<div>Thank Youu</div>}
+      />
     </div>
   );
 };

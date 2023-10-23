@@ -44,7 +44,6 @@ const Signup = () => {
       const json = await response.json();
       if (response.ok) {
         localStorage.setItem("user", JSON.stringify(json));
-        console.log("Hello");
         console.log(json);
         dispatch({ type: "LOGIN", payload: json });
         setData({
@@ -59,7 +58,6 @@ const Signup = () => {
       if (!response.ok) {
         setError(json.error);
         setErrorType("general");
-        console.log(json);
       }
     }
     setLoading(false);

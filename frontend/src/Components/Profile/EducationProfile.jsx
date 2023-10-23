@@ -23,8 +23,11 @@ const EducationProfile = () => {
         <p className="text-slate-400 text-xs">Where did you Studied?</p>
       </div>
       <div className="flex flex-1 flex-col">
-        {data.map((item) => (
-          <div className="flex bg-gray-50 flex-row my-4 mr-3 gap-4 rounded-md border border-gray-300 px-6 py-1 items-center dark:bg-gray-700 dark:border-gray-600">
+        {data.map((item, index) => (
+          <div
+            key={index}
+            className="flex bg-gray-50 flex-row my-4 mr-3 gap-4 rounded-md border border-gray-300 px-6 py-1 items-center dark:bg-gray-700 dark:border-gray-600"
+          >
             <div>
               <Building2 size={35} className="dark:text-white text-gray" />
             </div>
