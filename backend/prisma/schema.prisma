@@ -34,8 +34,8 @@ model Work {
   userId    String @db.ObjectId
   position   String
   company    String
-  start     DateTime
-  end      DateTime
+  start     String
+  end      String
 }
 
 model Question {

@@ -73,7 +73,7 @@ const runCodeWithInput = async (
           runCount: {
             increment: 1,
           },
-          executionTime: executionTime.toString(),
+          executionTime: executionTime,
           passedTest: (passedTestCases / testCasesCount) * 100,
           code: code,
         },
@@ -87,7 +87,7 @@ const runCodeWithInput = async (
           runCount: 1,
           submitted: false,
           passedTest: (passedTestCases / testCasesCount) * 100,
-          executionTime: executionTime.toString(),
+          executionTime: executionTime,
           code: code,
         },
       });

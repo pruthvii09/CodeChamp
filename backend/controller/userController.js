@@ -138,6 +138,7 @@ const getUserDetails = async (req, res) => {
       },
       select: {
         userDetails: true,
+        workDetails: true,
       },
     });
     if (!userDetails) {
@@ -145,7 +146,8 @@ const getUserDetails = async (req, res) => {
     }
     console.log(userDetails);
     const details = userDetails.userDetails[0];
-    res.status(200).json({ details });
+    const work = userDetails.workDetails;
+    res.status(200).json({ details, work });
   } catch (err) {
     return res.status(400).json({ error: "Internal Error" });
   }

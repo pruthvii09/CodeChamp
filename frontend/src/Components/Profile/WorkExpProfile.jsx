@@ -1,27 +1,15 @@
 import { Building2, Plus } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dialog from "../Dialog";
 import { useUserContext } from "../../hooks/useUserContext";
 import Spinner from "../Spinner";
-const dataexp = [
-  {
-    id: 1,
-    position: "Student",
-    company: "PES Modern College, Pune",
-    time: "Dec 22 to Present",
-  },
-  {
-    id: 2,
-    position: "Student",
-    company: "PES Modern College, Pune",
-    time: "Dec 22 to Present",
-  },
-];
 const WorkExpProfile = () => {
   const { user } = useUserContext();
   const [openDialog, setOpenDialog] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
+  const [work, setWork] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [fetchLoading, setFetchLoading] = useState(false);
   const [data, setData] = useState({
     position: "",
     company: "",
@@ -29,8 +17,46 @@ const WorkExpProfile = () => {
     end: "",
     userId: user?.id,
   });
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      setFetchLoading(true);
+      try {
+        const response = await fetch(
+          `http://localhost:4000/api/users/userDetail/${user?.id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error("Network response was not ok:", errorData);
+          throw new Error("Network response was not ok");
+        }
+
+        const json = await response.json();
+        const workDetail = json?.work;
+        setWork(workDetail);
+        console.log(json);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      } finally {
+        setFetchLoading(false);
+      }
+    };
+
+    if (user?.id) {
+      fetchUserData();
+    }
+  }, [user?.id]);
+
   const handleSubmit = async () => {
     setLoading(true);
+    setError("");
     if (
       data.position.length <= 0 ||
       data.company.length <= 0 ||
@@ -54,6 +80,7 @@ const WorkExpProfile = () => {
 
         if (response.ok) {
           setOpenDialog(false);
+          // window.location.reload(false);
         } else {
           setError(json.error);
         }
@@ -64,7 +91,9 @@ const WorkExpProfile = () => {
     }
     setLoading(false);
   };
-
+  if (fetchLoading) {
+    return <div>Loading....</div>;
+  }
   return (
     <div className="flex flex-row justify-between pb-2 border-b border-gray-200">
       <div className="w-[30%] justify-start text-start mt-4 pr-16">
@@ -76,7 +105,7 @@ const WorkExpProfile = () => {
         </p>
       </div>
       <div className="flex flex-1 flex-col">
-        {dataexp.map((item, index) => (
+        {work?.map((item, index) => (
           <div
             key={index}
             className="flex bg-gray-50 flex-row my-4 mr-3 gap-4 rounded-md border border-gray-300 px-6 py-1 items-center dark:bg-gray-700 dark:border-gray-600"
@@ -87,12 +116,14 @@ const WorkExpProfile = () => {
             <div className="flex w-full flex-col text-left m-2">
               <div className="flex justify-between">
                 <h3 className="font-semibold dark:text-white">
-                  {item.position}
+                  {item?.position}
                 </h3>
                 <p className="text-xs text-gray-500 cursor-pointer">Edit</p>
               </div>
-              <span className="text-[14px] text-blue-600">{item.company}</span>
-              <span className="text-slate-400 text-xs">{item.time}</span>
+              <span className="text-[14px] text-blue-600">{item?.company}</span>
+              <span className="text-slate-400 text-xs">
+                {item?.start} - {item?.end}
+              </span>
             </div>
           </div>
         ))}
@@ -158,6 +189,7 @@ const WorkExpProfile = () => {
                 />
               </div>
             </div>
+            {error && <div className="text-xs text-red-500">{error}</div>}
             <button
               onClick={handleSubmit}
               className="px-4 py-2 bg-black text-white rounded-md"

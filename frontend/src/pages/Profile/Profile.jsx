@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import AboutProfile from "../../Components/Profile/AboutProfile";
 import WorkExpProfile from "../../Components/Profile/WorkExpProfile";
-import EducationProfile from "../../Components/Profile/EducationProfile";
-import AddTagProfile from "../../Components/Profile/AddTagProfile";
-import Dialog from "../../Components/Dialog";
+// import EducationProfile from "../../Components/Profile/EducationProfile";
+// import AddTagProfile from "../../Components/Profile/AddTagProfile";
+// import Dialog from "../../Components/Dialog";
 
 function Profile() {
   return (
@@ -15,11 +15,11 @@ function Profile() {
           </span>
         </div>
       </div>
-      <div className="rounded-lg border border-gray-300 bg-white p-6 mx-32 mt-6 dark:bg-gray-800 dark:border-gray-700">
+      <div className="rounded-lg border border-gray-300 bg-white p-6 mx-32 my-6 dark:bg-gray-800 dark:border-gray-700">
         <AboutProfile />
         <WorkExpProfile />
-        <EducationProfile />
-        <AddTagProfile />
+        {/* <EducationProfile /> */}
+        {/* <AddTagProfile /> */}
       </div>
     </div>
   );

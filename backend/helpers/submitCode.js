@@ -70,7 +70,7 @@ const submitCodeWithInput = async (
             id: alreadyOpted?.id,
           },
           data: {
-            executionTime: executionTime.toString(),
+            executionTime: executionTime,
             language: language,
             code: code,
             passedTest: (passedTestCases / testCasesCount) * 100,
@@ -86,7 +86,7 @@ const submitCodeWithInput = async (
             runCount: {
               increment: 1,
             },
-            executionTime: executionTime.toString(),
+            executionTime: executionTime,
             language: language,
             code: code,
             passedTest: (passedTestCases / testCasesCount) * 100,
@@ -103,7 +103,7 @@ const submitCodeWithInput = async (
           runCount: 1,
           submitted: true,
           passedTest: (passedTestCases / testCasesCount) * 100,
-          executionTime: executionTime.toString(),
+          executionTime: executionTime,
           code: code,
         },
       });

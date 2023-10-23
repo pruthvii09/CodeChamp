@@ -35,7 +35,7 @@ const TableComponent = () => {
     if (user) {
       fetchAlreadyQuestion();
     }
-  }, []);
+  }, [user]);
   useEffect(() => {}, [alreadyQuestion]);
   useEffect(() => {
     setLoading(true);
@@ -83,13 +83,7 @@ const TableComponent = () => {
               Title
             </th>
             <th scope="col" className="px-6 py-3">
-              Acceptance
-            </th>
-            <th scope="col" className="px-6 py-3">
               Description
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Frequency
             </th>
           </tr>
         </thead>
@@ -117,9 +111,7 @@ const TableComponent = () => {
                   >
                     {item.number}. {item.title}
                   </th>
-                  <td className="px-6 py-4">47.5%</td>
                   <td className="px-6 py-4">{item.description}</td>
-                  <td className="px-6 py-4">Edit</td>
                 </tr>
               );
             })}

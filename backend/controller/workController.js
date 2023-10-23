@@ -2,6 +2,7 @@ const prisma = require("../prisma/index");
 
 const addWorkDetails = async (req, res) => {
   const { position, company, start, end, userId } = req.body;
+  console.log(req.body);
   try {
     const work = await prisma.work.create({
       data: {

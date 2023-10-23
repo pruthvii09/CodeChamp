@@ -5,7 +5,8 @@ import GitHubCalendar from "react-github-calendar";
 function Overview() {
   const { user } = useUserContext();
   console.log(user);
-  const [userData, setUserData] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [work, setWork] = useState(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchUserData = async () => {
@@ -29,6 +30,9 @@ function Overview() {
 
         const json = await response.json();
         const userDetails = json?.details;
+        const workDetail = json?.work;
+        setWork(workDetail);
+        console.log(json);
         setUserData(userDetails);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -78,22 +82,26 @@ function Overview() {
         </div>
         <div className="flex flex-col pb-5 mx-5 items-start">
           <h4 className="text-slate-400 pb-3">Experience</h4>
-          <div className=" flex flex-row gap-5 items-center">
-            <div className="flex flex-row items-center justify-center border border-gray-400 bg-gray-100 rounded-md h-12 w-12">
-              <GraduationCap />
+          {work.map((item) => (
+            <div className="flex mb-4 flex-row gap-5 items-center">
+              <div className="flex flex-row items-center justify-center border border-gray-400 bg-gray-100 rounded-md h-12 w-12">
+                <GraduationCap />
+              </div>
+              <div className="flex flex-col justify-start">
+                <span className="items-start font-bold text-left">
+                  {item?.position}
+                </span>
+                <span className="text-slate-500 text-left">
+                  {item?.company}
+                </span>
+                <span className="text-slate-500 text-left text-xs">
+                  {item?.start} - {item?.end}
+                </span>
+              </div>
             </div>
-            <div className="flex flex-col justify-start">
-              <span className="items-start font-bold text-left">Student</span>
-              <span className="text-slate-500 text-left">
-                Modern College of Engineering, Pune
-              </span>
-              <span className="text-slate-500 text-left text-xs">
-                Dec 2022 to Present · 11 months
-              </span>
-            </div>
-          </div>
+          ))}
         </div>
-        <div className="flex flex-col pb-5 mx-5 items-start">
+        {/* <div className="flex flex-col pb-5 mx-5 items-start">
           <span className="text-slate-400 pb-3">Education</span>
           <div>
             <p className="font-semibold	text-[16px]">
@@ -103,7 +111,7 @@ function Overview() {
               Pes Modern College of Engineering • 2021
             </h4>
           </div>
-        </div>
+        </div> */}
         <div className="flex flex-col pb-5 mx-5 items-start">
           <h4 className="text-slate-400 pb-3">Github</h4>
           <div className="flex flex-col  ">
