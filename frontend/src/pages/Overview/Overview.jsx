@@ -13,7 +13,7 @@ function Overview() {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:4000/api/users/userDetail/${user?.id}`,
+          `${process.env.REACT_APP_BACKEND_URI}/users/userDetail/${user?.id}`,
           {
             method: "GET",
             headers: {

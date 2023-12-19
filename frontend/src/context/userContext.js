@@ -33,7 +33,7 @@ export const UserContxetProvider = ({ children }) => {
 
     const fetchData = async () => {
       const response = await fetch(
-        `http://localhost:4000/api/users/${user?.id}`,
+        `${process.env.REACT_APP_BACKEND_URI}/users/${user?.id}`,
         {
           headers: {
             Authorization: `Bearer ${user.token}`,

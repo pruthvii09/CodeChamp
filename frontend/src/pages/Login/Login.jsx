@@ -25,18 +25,21 @@ function Login() {
       setErrorType("password");
       setError("Password is Required");
     } else {
-      const response = await fetch("http://localhost:4000/api/users/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...data }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URI}/users/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...data }),
+        }
+      );
       const json = await response.json();
       if (response.ok) {
         localStorage.setItem("user", JSON.stringify(json));
         dispatch({ type: "LOGIN", payload: json });
-        navigate("/");
+        navigate("/problems");
       }
       if (!response.ok) {
         setError(json.error);

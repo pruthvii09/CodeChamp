@@ -14,7 +14,7 @@ const TableComponent = () => {
     const fetchAlreadyQuestion = async () => {
       try {
         const response = await fetch(
-          `http://localhost:4000/api/code/alreadysubmit/${user?.id}`,
+          `${process.env.REACT_APP_BACKEND_URI}/code/alreadysubmit/${user?.id}`,
           {
             method: "GET",
             headers: {
@@ -41,12 +41,15 @@ const TableComponent = () => {
     setLoading(true);
     const fetchProblems = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/question", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_URI}/question`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         const json = await response.json();
         if (!response.ok) {
           throw new Error("Network response was not ok");

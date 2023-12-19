@@ -34,13 +34,16 @@ const Signup = () => {
       setErrorType("password");
       setError("Password is Required");
     } else {
-      const response = await fetch("http://localhost:4000/api/users/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...data }), // ... spread opeator
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URI}/users/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...data }), // ... spread opeator
+        }
+      );
       const json = await response.json();
       if (response.ok) {
         localStorage.setItem("user", JSON.stringify(json));
@@ -53,7 +56,7 @@ const Signup = () => {
           password: "",
           isAdmin: false,
         });
-        navigate("/");
+        navigate("/problems");
       }
       if (!response.ok) {
         setError(json.error);

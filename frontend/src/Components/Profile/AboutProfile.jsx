@@ -19,7 +19,7 @@ const AboutProfile = () => {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:4000/api/users/userDetail/${user?.id}`,
+          `${process.env.REACT_APP_BACKEND_URI}/users/userDetail/${user?.id}`,
           {
             method: "GET",
             headers: {
@@ -57,7 +57,7 @@ const AboutProfile = () => {
     if (user?.id) {
       setSubmitLoading(true);
       const response = await fetch(
-        "http://localhost:4000/api/users/uploadDetails",
+        `${process.env.REACT_APP_BACKEND_URI}/users/uploadDetails`,
         {
           method: "POST",
           headers: {
@@ -66,7 +66,7 @@ const AboutProfile = () => {
           body: JSON.stringify({ ...data }),
         }
       );
-      const json = await response.json();
+      // const json = await response.json();
       if (response.ok) {
         setOpenDialog(true);
       }

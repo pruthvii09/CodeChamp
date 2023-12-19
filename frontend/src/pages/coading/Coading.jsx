@@ -19,12 +19,15 @@ const Coading = () => {
   const [runLoading, setRunLoading] = useState(false);
   const fetchQuestion = async () => {
     setFetchLoading(true);
-    const response = await fetch(`http://localhost:4000/api/question/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_URI}/question/${id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const json = await response.json();
     if (response.ok) {
       setQuestion(json?.question);
@@ -36,7 +39,7 @@ const Coading = () => {
   };
   useEffect(() => {
     fetchQuestion();
-  }, [id]);
+  }, [id, fetchQuestion]);
   useEffect(() => {
     setLanguages(question?.template);
     console.log("Updated languages:", question?.template);
@@ -66,13 +69,16 @@ const Coading = () => {
     };
     console.log(requestBody);
     try {
-      const response = await fetch(`http://localhost:4000/api/code/run`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Set the content type to JSON
-        },
-        body: JSON.stringify(requestBody), // Stringify the request body
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URI}/code/run`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", // Set the content type to JSON
+          },
+          body: JSON.stringify(requestBody), // Stringify the request body
+        }
+      );
       console.log("hello at end");
       const data = await response.json();
       if (response.ok) {
@@ -100,13 +106,16 @@ const Coading = () => {
     };
     console.log(requestBody);
     try {
-      const response = await fetch(`http://localhost:4000/api/code/submit`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json", // Set the content type to JSON
-        },
-        body: JSON.stringify(requestBody), // Stringify the request body
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URI}/code/submit`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json", // Set the content type to JSON
+          },
+          body: JSON.stringify(requestBody), // Stringify the request body
+        }
+      );
       console.log("hello at end");
       const data = await response.json();
       if (response.ok) {

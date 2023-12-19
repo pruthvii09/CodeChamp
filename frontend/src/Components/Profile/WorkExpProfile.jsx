@@ -23,7 +23,7 @@ const WorkExpProfile = () => {
       setFetchLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:4000/api/users/userDetail/${user?.id}`,
+          `${process.env.REACT_APP_BACKEND_URI}/users/userDetail/${user?.id}`,
           {
             method: "GET",
             headers: {
@@ -67,13 +67,16 @@ const WorkExpProfile = () => {
     } else {
       try {
         console.log({ ...data });
-        const response = await fetch("http://localhost:4000/api/work", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json", // Corrected content type
-          },
-          body: JSON.stringify({ ...data }),
-        });
+        const response = await fetch(
+          `${process.env.REACT_APP_BACKEND_URI}/work`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json", // Corrected content type
+            },
+            body: JSON.stringify({ ...data }),
+          }
+        );
 
         const json = await response.json();
         console.log(json);
