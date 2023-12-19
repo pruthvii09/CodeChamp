@@ -8,6 +8,8 @@ import "./App.css";
 import Login from "./pages/Login/Login";
 import Signup from "./pages/Signup/Signup";
 import Home from "./pages/Home/Home";
+import HomeProg from "./pages/PairProg/HomeProg";
+import Editor from "./pages/PairProg/EditorPage";
 import Layout from "./Components/Layout";
 import Problems from "./pages/Problems/Problems";
 import Profile from "./pages/Profile/Profile";
@@ -16,11 +18,20 @@ import Overview from "./pages/Overview/Overview";
 import { useUserContext } from "./hooks/useUserContext";
 import Coading from "./pages/coading/Coading";
 import Admin from "./pages/Admin/Admin";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const { user } = useUserContext();
   return (
     <div className="dark:bg-gray-900">
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          success: {
+            theme: { primary: "#4aed88" },
+          },
+        }}
+      ></Toaster>
       <Router>
         <Layout />
         <Routes>
@@ -45,6 +56,8 @@ function App() {
           />
           <Route path="/coading/:id" element={<Coading />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/pair-prog" element={<HomeProg />} />
+          <Route path="/editor/:id" element={<Editor />} />
         </Routes>
       </Router>
     </div>

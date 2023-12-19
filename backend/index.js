@@ -14,10 +14,14 @@ const userRoutes = require("./routes/userRoutes");
 const questionRoutes = require("./routes/questionRoutes");
 const codeRoutes = require("./routes/codeRoutes");
 const workRoutes = require("./routes/workRoutes");
+const compileRoutes = require("./routes/compileRoutes");
+const roomRoutes = require("./routes/roomRoutes");
 app.use("/api/users", userRoutes);
 app.use("/api/question", questionRoutes);
 app.use("/api/code", codeRoutes);
 app.use("/api/work", workRoutes);
+app.use("/api/compile", compileRoutes);
+// app.use("/api/room", roomRoutes);
 
 // Sample route
 app.get("/", (req, res) => {
